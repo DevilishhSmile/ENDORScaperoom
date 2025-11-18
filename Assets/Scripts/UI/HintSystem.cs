@@ -2,43 +2,49 @@ using UnityEngine;
 
 public class HintSystem : MonoBehaviour
 {
-    [SerializeField] private float hintCooldown = 10f;
-    private bool canGiveHint = true;
+    [TextArea]
+    public string[] hints; // Lista de pistas
+    private int currentHintIndex = 0;
 
-    [SerializeField] private string[] hintsSala1;
-    [SerializeField] private string[] hintsSala2;
-    [SerializeField] private string[] hintsSala3;
+    public GameObject hintPanel;
+    public TMPro.TMP_Text hintText;
 
-    private int index = 0;
-
-    public void RequestHint()
+    private void Start()
     {
-        if (!canGiveHint) return;
-
-        string hint = GetHintForCurrentRoom();
-        DialogueManager.Instance.ShowDialogue(hint);
-
-        canGiveHint = false;
-        Invoke(nameof(ResetCooldown), hintCooldown);
+        HideHint();
     }
 
-    private void ResetCooldown()
+    public void ShowNextHint()
     {
-        canGiveHint = true;
-    }
-
-    private string GetHintForCurrentRoom()
-    {
-        switch (GameManager.Instance.CurrentState)
+        // Verificar si estamos en una sala jugable
+        if (GameManager.Instance.currentState != GameState.Sala1 &&
+            GameManager.Instance.currentState != GameState.Sala2 &&
+            GameManager.Instance.currentState != GameState.Sala3)
         {
-            case GameState.Sala1:
-                return hintsSala1[index++ % hintsSala1.Length];
-            case GameState.Sala2:
-                return hintsSala2[index++ % hintsSala2.Length];
-            case GameState.Sala3:
-                return hintsSala3[index++ % hintsSala3.Length];
+            Debug.Log("El sistema de pistas no está disponible en este estado.");
+            return;
         }
 
-        return "No hay pistas disponibles.";
+        if (hints.Length == 0)
+        {
+            Debug.LogWarning("No hay pistas asignadas.");
+            return;
+        }
+
+        if (currentHintIndex < hints.Length)
+        {
+            hintPanel.SetActive(true);
+            hintText.text = hints[currentHintIndex];
+            currentHintIndex++;
+        }
+        else
+        {
+            hintText.text = "No hay más pistas disponibles.";
+        }
+    }
+
+    public void HideHint()
+    {
+        hintPanel.SetActive(false);
     }
 }

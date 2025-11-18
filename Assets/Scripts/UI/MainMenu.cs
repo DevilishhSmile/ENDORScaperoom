@@ -10,11 +10,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(introSceneName);
     }
 
-    public void OpenCredits()
-    {
+   // public void OpenCredits()
+    //{
         // Esto puede ser un panel UI
-        UIManager.Instance.ShowCredits();
-    }
+      //  UIManager.Instance.ShowCredits();
+   // }
 
     public void ExitGame()
     {

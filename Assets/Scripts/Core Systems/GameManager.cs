@@ -1,49 +1,84 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public GameState CurrentState;
+    [Header("Game State")]
+    public GameState currentState;
 
-    // Eventos globales
-    public Action OnPuzzleStarted;
-    public Action OnPuzzleCompleted;
-    public Action OnAllPuzzlesCompleted;
+    [Header("Puzzle Control - Sala 1")]
+    public int puzzlesCompletedSala1 = 0;
+    public int totalPuzzlesSala1 = 3;
 
     private void Awake()
     {
-        // Singleton
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void SetState(GameState newState)
+    private void Start()
     {
-        CurrentState = newState;
+        // Cuando inicia el juego por primera vez
+        currentState = GameState.MainMenu;
     }
 
-    public void PuzzleStarted()
+    // ============================================================
+    // Inicio desde el menú principal
+    // ============================================================
+    public void StartGame()
     {
-        OnPuzzleStarted?.Invoke();
+        currentState = GameState.Intro;
+        SceneManager.LoadScene("IntroScene");
     }
 
+    // ============================================================
+    // Después de la intro → Sala 1
+    // ============================================================
+    public void StartSala1()
+    {
+        currentState = GameState.Sala1;
+        puzzlesCompletedSala1 = 0;
+        SceneManager.LoadScene("Sala1");
+    }
+
+    // ============================================================
+    // Reportar puzzle completado (Sala 1)
+    // ============================================================
     public void PuzzleCompleted()
     {
-        OnPuzzleCompleted?.Invoke();
+        puzzlesCompletedSala1++;
+
+        Debug.Log("Puzzle completado. Total: " + puzzlesCompletedSala1);
+
+        if (puzzlesCompletedSala1 >= totalPuzzlesSala1)
+        {
+            Sala1Completed();
+        }
     }
 
-    public void AllPuzzlesCompleted()
+    private void Sala1Completed()
     {
-        OnAllPuzzlesCompleted?.Invoke();
+        Debug.Log("SALA 1 COMPLETADA!");
+
+        currentState = GameState.Final;
+        SceneManager.LoadScene("FinalScreen");
     }
 
-    public void LoadScene(string sceneName)
+    // ============================================================
+    // Failsafe → volver al menú
+    // ============================================================
+    public void GoToMainMenu()
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("MainMenu");
+        currentState = GameState.MainMenu;
     }
 }

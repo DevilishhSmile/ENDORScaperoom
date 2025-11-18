@@ -1,38 +1,33 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] private List<PuzzleBase> puzzles;
-    private int puzzlesCompleted = 0;
+    public static RoomManager Instance;
 
-    [SerializeField] private string nextSceneName;
+    public int puzzlesSolved = 0;
+    public int totalPuzzles = 3;
 
-    private void Start()
+    private void Awake()
     {
-        // Suscribirse al GameManager
-        GameManager.Instance.OnPuzzleCompleted += HandlePuzzleCompleted;
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.OnPuzzleCompleted -= HandlePuzzleCompleted;
-    }
-
-    private void HandlePuzzleCompleted()
-    {
-        puzzlesCompleted++;
-
-        if (puzzlesCompleted >= puzzles.Count)
+        if (Instance == null)
         {
-            Debug.Log("Todos los puzzles completados!");
-            GameManager.Instance.AllPuzzlesCompleted();
-            Invoke("GoToNextScene", 1f);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void GoToNextScene()
+    public void PuzzleSolved()
     {
-        GameManager.Instance.LoadScene(nextSceneName);
+        puzzlesSolved++;
+        Debug.Log("Puzzle completado! Total: " + puzzlesSolved);
+
+        if (puzzlesSolved >= totalPuzzles)
+        {
+            Debug.Log("TODOS LOS PUZZLES COMPLETADOS — AVANZAR A SIGUIENTE SALA");
+            GameManager.Instance.StartSala1(); // O siguiente sala
+        }
     }
 }
