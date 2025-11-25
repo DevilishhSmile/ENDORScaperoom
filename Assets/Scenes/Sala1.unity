@@ -1375,7 +1375,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1435257415}
   - component: {fileID: 1435257416}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: panelcoso 1_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1417,7 +1417,7 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -1440,7 +1440,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1627780631127181391, guid: ff3e39a23b69a1244b766341fc7b75ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2514,12 +2514,15 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1867583197127191808, guid: 3c0ea8efdc1fa11449bddcfbdac00274, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 1435257415}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7129663392561366713, guid: 3c0ea8efdc1fa11449bddcfbdac00274, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8134713566477892824}
+    - targetCorrespondingSourceObject: {fileID: 7129663392561366713, guid: 3c0ea8efdc1fa11449bddcfbdac00274, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8134713566477892826}
   m_SourcePrefab: {fileID: 100100000, guid: 3c0ea8efdc1fa11449bddcfbdac00274, type: 3}
 --- !u!114 &8134713566477892820 stripped
 MonoBehaviour:
@@ -2559,6 +2562,14 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!222 &8134713566477892826
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134713566477892823}
+  m_CullTransparentMesh: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
