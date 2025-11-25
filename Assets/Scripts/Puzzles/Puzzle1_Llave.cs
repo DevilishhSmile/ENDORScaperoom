@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Puzzle1_Llave : MonoBehaviour
 {
@@ -15,31 +15,36 @@ public class Puzzle1_Llave : MonoBehaviour
         cajonAbierto.SetActive(false);
     }
 
-    // Este m�todo lo llama InteractionController
+    // Este método lo llama InteractionController
     public void OnObjectClicked(string objectID)
     {
-        // recoger llave
+        Debug.Log("RECEIVED BY PUZZLE 1: " + objectID);
+
         if (objectID == "llave" && !llaveObtenida)
         {
+            Debug.Log("→ ESTÁS CLICKEANDO LA LLAVE");
             llaveObtenida = true;
             llave.SetActive(false);
-
-            Debug.Log("Llave obtenida!");
             return;
         }
 
-        // abrir caj�n
+        if (objectID == "cajon")
+        {
+            Debug.Log("→ ESTÁS CLICKEANDO EL CAJÓN");
+        }
+
         if (objectID == "cajon" && llaveObtenida && !cajonAbiertoFlag)
         {
-            cajonAbiertoFlag = true;
+            Debug.Log("→ CUMPLE CONDICIONES PARA ABRIR EL CAJÓN");
 
+            cajonAbiertoFlag = true;
             cajonCerrado.SetActive(false);
             cajonAbierto.SetActive(true);
 
-            Debug.Log("Caj�n abierto!");
-
-            // registrar puzzle completado
             RoomManager.Instance.PuzzleSolved();
+
+            Debug.Log("Cajón abierto!");
         }
     }
+
 }

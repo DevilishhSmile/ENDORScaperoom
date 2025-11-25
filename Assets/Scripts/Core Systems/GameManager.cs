@@ -81,4 +81,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         currentState = GameState.MainMenu;
     }
+
+    public void GoToFinal()
+    {
+        currentState = GameState.Final;
+        SceneManager.LoadScene("FinalScreen");
+    }
+
 }

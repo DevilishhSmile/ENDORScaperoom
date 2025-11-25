@@ -1,19 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {
-    public float interactionDistance = 3f;
-
     private InteractableObject currentObject;
 
-    // Referencias a puzzles activos en la escena
+    // Puzzles en escena
     private Puzzle1_Llave puzzle1;
     private Puzzle2_Codigo puzzle2;
     private Puzzle3_Ordenar puzzle3;
 
     void Start()
     {
-        // Buscar puzzles en escena una vez
         puzzle1 = FindFirstObjectByType<Puzzle1_Llave>();
         puzzle2 = FindFirstObjectByType<Puzzle2_Codigo>();
         puzzle3 = FindFirstObjectByType<Puzzle3_Ordenar>();
@@ -21,6 +18,10 @@ public class InteractionController : MonoBehaviour
 
     void Update()
     {
+        // 🚫 NO dejar interactuar con el mundo si el puzzle de código está abierto
+        if (puzzle2 != null && puzzle2.puzzleActive)
+            return;
+
         DetectObject();
 
         if (Input.GetMouseButtonDown(0) && currentObject != null)
@@ -30,7 +31,7 @@ public class InteractionController : MonoBehaviour
     }
 
     // ---------------------------------------------------------
-    // Detectar objeto con Raycast (2D)
+    // Raycast 2D para detectar objetos clickeables
     // ---------------------------------------------------------
     void DetectObject()
     {
@@ -40,7 +41,6 @@ public class InteractionController : MonoBehaviour
         if (hit.collider != null)
         {
             var interactObj = hit.collider.GetComponent<InteractableObject>();
-
             if (interactObj != null)
             {
                 currentObject = interactObj;
@@ -52,25 +52,27 @@ public class InteractionController : MonoBehaviour
     }
 
     // ---------------------------------------------------------
-    // Interacci�n por puzzle
+    // Lógica de interacción del mundo
     // ---------------------------------------------------------
     void Interact(InteractableObject obj)
     {
         string id = obj.objectID;
+        Debug.Log("CLICK DETECTADO: " + id);
 
-        // Puzzle 1
+        // 👉 Si es el panel pequeño del puzzle de código → abrir puzzle UI
+        if (puzzle2 != null && id == "panelCodigo")
+        {
+            puzzle2.OpenPuzzle();
+            return;
+        }
+
+        // Puzzle 1 — llave y cajón
         if (puzzle1 != null)
         {
             puzzle1.OnObjectClicked(id);
         }
 
-        // Puzzle 2
-        if (puzzle2 != null)
-        {
-            puzzle2.OnDigitClicked(id);
-        }
-
-        // Puzzle 3
+        // Puzzle 3 — papeles y botón verificar
         if (puzzle3 != null)
         {
             puzzle3.OnPaperClicked(id);

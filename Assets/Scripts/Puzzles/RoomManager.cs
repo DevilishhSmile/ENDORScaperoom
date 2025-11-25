@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
@@ -10,13 +10,9 @@ public class RoomManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     public void PuzzleSolved()
@@ -24,10 +20,11 @@ public class RoomManager : MonoBehaviour
         puzzlesSolved++;
         Debug.Log("Puzzle completado! Total: " + puzzlesSolved);
 
+        // Cuando todos los puzzles están listos → final del MVP
         if (puzzlesSolved >= totalPuzzles)
         {
-            Debug.Log("TODOS LOS PUZZLES COMPLETADOS � AVANZAR A SIGUIENTE SALA");
-            GameManager.Instance.StartSala1(); // O siguiente sala
+            Debug.Log("TODOS LOS PUZZLES COMPLETADOS — IR A FINAL");
+            GameManager.Instance.GoToFinal();
         }
     }
 }
